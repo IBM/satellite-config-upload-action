@@ -15,4 +15,4 @@ outputs:
     description: 'The ID of the new version uploaded'
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'dist/index.js'
