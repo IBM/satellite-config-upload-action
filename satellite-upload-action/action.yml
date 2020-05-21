@@ -1,0 +1,18 @@
+name: 'Satellite file upload'
+description: 'Upload a new Kubernetes resource to IBM Cloud Satellite'
+inputs:
+  apikey:
+    description: 'IBM Cloud API key'
+    required: true
+  channel_id:
+    description: 'Satellite Config channel_id'
+    required: true
+  filename:
+    description: 'File to upload'
+    required: true
+outputs:
+  versionid:
+    description: 'The ID of the new version uploaded'
+runs:
+  using: 'node12'
+  main: 'index.js'
