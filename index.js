@@ -1,5 +1,4 @@
 const core = require('@actions/core');
-const github = require('@actions/github');
 const fetch = require('node-fetch');
 const fs = require('fs');
 const jwtDecode = require('jwt-decode');
@@ -56,11 +55,10 @@ async function main() {
         const bearer = await getBearer(apikey);
 
         // upload the file
-        const buildId = github.context.buildid;
         const filename = core.getInput('filename');
         const channelId = core.getInput('channel_id');
         const versionName = core.getInput('version_name');
-        const versionid = await uploadVersion(bearer, filename, channelId, buildId);
+        const versionid = await uploadVersion(bearer, filename, channelId, versionName);
 
         core.setOutput("versionid", versionid);
     } catch (error) {
