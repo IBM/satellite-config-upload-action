@@ -10,6 +10,9 @@ inputs:
   filename:
     description: 'File to upload'
     required: true
+  version_name:
+    description: 'Name of the new version'
+    required: true
 outputs:
   versionid:
     description: 'The ID of the new version uploaded'

@@ -23737,6 +23737,7 @@ async function main() {
         const buildId = github.context.buildid;
         const filename = core.getInput('filename');
         const channelId = core.getInput('channel_id');
+        const versionName = core.getInput('version_name');
         const versionid = await uploadVersion(bearer, filename, channelId, buildId);
 
         core.setOutput("versionid", versionid);

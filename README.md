@@ -15,6 +15,10 @@ A set of Github Actions that allow users to integrate IBM Cloud Satellite Config
 
 **Required** The name of the file to upload.
 
+### `version_name`
+
+**Required** The name of the new version.
+
 ## Outputs
 
 ### `version_id`
