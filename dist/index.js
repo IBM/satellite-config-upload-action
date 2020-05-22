@@ -42,6 +42,8 @@ module.exports =
 /******/ 		// Load entry module and return exports
 /******/ 		return __webpack_require__(801);
 /******/ 	};
+/******/ 	// initialize runtime
+/******/ 	runtime(__webpack_require__);
 /******/
 /******/ 	// run startup
 /******/ 	return startup();
@@ -2196,29 +2198,49 @@ module.exports = require("zlib");
 /***/ }),
 
 /***/ 801:
-/***/ (function(__unusedmodule, __unusedexports, __webpack_require__) {
+/***/ (function(__unusedmodule, __webpack_exports__, __webpack_require__) {
 
-const core = __webpack_require__(449);
-const fetch = __webpack_require__(455);
-const fs = __webpack_require__(747);
-const jwtDecode = __webpack_require__(567);
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(449);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(455);
+/* harmony import */ var node_fetch__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(node_fetch__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(747);
+/* harmony import */ var fs__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(fs__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(567);
+/* harmony import */ var jwt_decode__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(jwt_decode__WEBPACK_IMPORTED_MODULE_3__);
 
+
+
+
+
+
+
+/*
+* Get the IAM bearer token using an API key
+*/
 const getBearer = async (apikey) => {
+    console.log( 'Signing in to IBM Cloud' );
     const params = new URLSearchParams();
     params.append('grant_type', 'urn:ibm:params:oauth:grant-type:apikey');
     params.append('apikey', apikey);
-    const response = await fetch('https://iam.test.cloud.ibm.com/identity/token', { method: 'POST', body: params });
+    const response = await node_fetch__WEBPACK_IMPORTED_MODULE_1___default()('https://iam.test.cloud.ibm.com/identity/token', { method: 'POST', body: params });
     const json = await response.json();
     const bearer = json.access_token;
     return bearer;
 }
 
+/*
+* Call the SatCon API to upload a new version to a channel
+*/
 const uploadVersion = async (token, filename, channelId, version) => {
     // Load file
-    const content = fs.readFileSync(filename, 'utf8');
+    console.log( 'Uploading %s to channel %s as version %s', filename, channelId, version )
+    const content = Object(fs__WEBPACK_IMPORTED_MODULE_2__.readFileSync)(filename, 'utf8');
 
     // Build the content package
-    const jwt = jwtDecode(token);
+    const jwt = jwt_decode__WEBPACK_IMPORTED_MODULE_3___default()(token);
     const bss = jwt.account.bss;
     const request =
     {
@@ -2237,32 +2259,33 @@ const uploadVersion = async (token, filename, channelId, version) => {
 
     // Call API
     const headers = { 'content-type': 'application/json', 'authorization': 'Bearer ' + token };
-    const fetchResponse = await fetch('https://api.razee.test.cloud.ibm.com/graphql', { method: 'POST', headers: headers, body: JSON.stringify(request) })
+    const fetchResponse = await node_fetch__WEBPACK_IMPORTED_MODULE_1___default()('https://api.razee.test.cloud.ibm.com/graphql', { method: 'POST', headers: headers, body: JSON.stringify(request) })
     const response = await fetchResponse.json();
     if ( response.errors ) {
         throw new Error (response.errors[0].message);
     }
+    console.log( 'Version ID %s', response.data.addChannelVersion.version_uuid );
     return response.data.addChannelVersion.version_uuid;
 }
 
 async function main() {
     try {
         // get the Bearer token
-        const apikey = core.getInput('apikey');
+        const apikey = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('apikey');
         if ( !apikey ) {
             throw new Error('Missing apikey');
         }
         const bearer = await getBearer(apikey);
 
         // upload the file
-        const filename = core.getInput('filename');
-        const channelId = core.getInput('channel_id');
-        const versionName = core.getInput('version_name');
+        const filename = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('filename');
+        const channelId = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('channel_id');
+        const versionName = Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)('version_name');
         const versionid = await uploadVersion(bearer, filename, channelId, versionName);
 
-        core.setOutput("versionid", versionid);
+        Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput)("versionid", versionid);
     } catch (error) {
-        core.setFailed(error.message);
+        Object(_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)(error.message);
     }
 }
 
@@ -2285,4 +2308,43 @@ module.exports = eval("require")("encoding");
 
 /***/ })
 
-/******/ });
+/******/ },
+/******/ function(__webpack_require__) { // webpackRuntimeModules
+/******/ 	"use strict";
+/******/ 
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	!function() {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = function(exports) {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	!function() {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = function(module) {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				function getDefault() { return module['default']; } :
+/******/ 				function getModuleExports() { return module; };
+/******/ 			__webpack_require__.d(getter, 'a', getter);
+/******/ 			return getter;
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ 	/* webpack/runtime/define property getter */
+/******/ 	!function() {
+/******/ 		// define getter function for harmony exports
+/******/ 		var hasOwnProperty = Object.prototype.hasOwnProperty;
+/******/ 		__webpack_require__.d = function(exports, name, getter) {
+/******/ 			if(!hasOwnProperty.call(exports, name)) {
+/******/ 				Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 			}
+/******/ 		};
+/******/ 	}();
+/******/ 	
+/******/ }
+);
