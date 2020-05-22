@@ -1,5 +1,5 @@
-name: 'Satellite file upload'
-description: 'Upload a new Kubernetes resource to IBM Cloud Satellite'
+name: 'Satellite file upload (alpha)'
+description: 'Upload a new Kubernetes resource to IBM Cloud Satellite (alpha)'
 inputs:
   apikey:
     description: 'IBM Cloud API key'
