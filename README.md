@@ -13,7 +13,7 @@ A set of Github Actions that allow users to integrate IBM Cloud Satellite Config
 
 ### `tokenHost`
 
-**Optional** IBM Cloud IAM endpoint. Defaults to https://iam.cloud.ibm.com
+**Optional** IBM Cloud IAM endpoint. Defaults to https://iam.cloud.ibm.com/identity/token
 
 ### `channelUuid`
 
