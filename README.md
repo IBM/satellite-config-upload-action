@@ -7,21 +7,21 @@ A set of Github Actions that allow users to integrate IBM Cloud Satellite Config
 
 **Required** The IBM Cloud API key.
 
-### `channel_id`
+### `channelUuid`
 
-**Required** The IBM Cloud Satellite Config channel_id.
+**Required** The IBM Cloud Satellite Config channelUuid.
 
 ### `filename`
 
 **Required** The name of the file to upload.
 
-### `version_name`
+### `versionName`
 
 **Required** The name of the new version.
 
 ## Outputs
 
-### `version_id`
+### `versionUuid`
 
 The version id of the new file that was uploaded
 
@@ -31,4 +31,4 @@ uses: IBM/satellite-config-actions@v1
 with:
   apikey: 'xxxxxxxxxxxxxxxxxxxx'
   filename: 'resource.yml'
-  channel_id: '12345abcdef'
+  channelUuid: '12345abcdef'

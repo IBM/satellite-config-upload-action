@@ -4,17 +4,17 @@ inputs:
   apikey:
     description: 'IBM Cloud API key'
     required: true
-  channel_id:
-    description: 'Satellite Config channel_id'
+  channelUuid:
+    description: 'Satellite Config channelUuid'
     required: true
   filename:
     description: 'File to upload'
     required: true
-  version_name:
+  versionName:
     description: 'Name of the new version'
     required: true
 outputs:
-  versionid:
+  versionUuid:
     description: 'The ID of the new version uploaded'
 runs:
   using: 'node12'

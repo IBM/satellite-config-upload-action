@@ -32,14 +32,15 @@ const uploadVersion = async (token, filename, channelId, version) => {
     const bss = jwt.account.bss;
     const request =
     {
-        "query": "mutation addChannelVersion($org_id: String!, $channel_id: String!, $name: String!, $type: String!, $content: String!, $description: String) { addChannelVersion(org_id: $org_id, channel_uuid: $channel_id, name: $name, type: $type, content: $content, description: $description) {success version_uuid}}",
+        "query": "mutation addChannelVersion($orgId: String!, $channelUuid: String!, $name: String!, $type: String!, $content: String, $file: Upload, $description: String) { addChannelVersion(orgId: $orgId, channelUuid: $channelUuid, name: $name, type: $type, content: $content, file: $file, description: $description) {success versionUuid}}",
         "variables":
         {
-            "org_id": bss,
-            "channel_id": channelId,
+            "orgId": bss,
+            "channelUuid": channelId,
             "name": version,
             "type": "application/yaml",
-            "content": content,
+            "file": null,
+            "content": null,
             "description": null
         },
         "operationName": "addChannelVersion"
@@ -52,8 +53,8 @@ const uploadVersion = async (token, filename, channelId, version) => {
     if ( response.errors ) {
         throw new Error (response.errors[0].message);
     }
-    console.log( 'Version ID %s', response.data.addChannelVersion.version_uuid );
-    return response.data.addChannelVersion.version_uuid;
+    console.log( 'Version ID %s', response.data.addChannelVersion.versionUuid );
+    return response.data.addChannelVersion.versionUuid;
 }
 
 async function main() {
@@ -67,8 +68,8 @@ async function main() {
 
         // upload the file
         const filename = getInput('filename');
-        const channelId = getInput('channel_id');
-        const versionName = getInput('version_name');
+        const channelId = getInput('channelUuid');
+        const versionName = getInput('versionName');
         const versionid = await uploadVersion(bearer, filename, channelId, versionName);
 
         setOutput("versionid", versionid);
