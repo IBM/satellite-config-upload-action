@@ -8,12 +8,12 @@ import jwtDecode from 'jwt-decode';
 /*
 * Get the IAM bearer token using an API key
 */
-const getBearer = async (apikey) => {
+const getBearer = async (tokenHost, apikey) => {
     console.log( 'Signing in to IBM Cloud' );
     const params = new URLSearchParams();
     params.append('grant_type', 'urn:ibm:params:oauth:grant-type:apikey');
     params.append('apikey', apikey);
-    const response = await fetch('https://iam.test.cloud.ibm.com/identity/token', { method: 'POST', body: params });
+    const response = await fetch(tokenHost, { method: 'POST', body: params });
     const json = await response.json();
     const bearer = json.access_token;
     return bearer;
@@ -22,7 +22,7 @@ const getBearer = async (apikey) => {
 /*
 * Call the SatCon API to upload a new version to a channel
 */
-const uploadVersion = async (token, filename, channelId, version) => {
+const uploadVersion = async (token, host, filename, channelId, version) => {
     // Load file
     console.log( 'Uploading %s to channel %s as version %s', filename, channelId, version )
     const content = readFileSync(filename, 'utf8');
@@ -40,7 +40,7 @@ const uploadVersion = async (token, filename, channelId, version) => {
             "name": version,
             "type": "application/yaml",
             "file": null,
-            "content": null,
+            "content": content,
             "description": null
         },
         "operationName": "addChannelVersion"
@@ -48,7 +48,7 @@ const uploadVersion = async (token, filename, channelId, version) => {
 
     // Call API
     const headers = { 'content-type': 'application/json', 'authorization': 'Bearer ' + token };
-    const fetchResponse = await fetch('https://api.razee.test.cloud.ibm.com/graphql', { method: 'POST', headers: headers, body: JSON.stringify(request) })
+    const fetchResponse = await fetch(host, { method: 'POST', headers: headers, body: JSON.stringify(request) })
     const response = await fetchResponse.json();
     if ( response.errors ) {
         throw new Error (response.errors[0].message);
@@ -64,13 +64,23 @@ async function main() {
         if ( !apikey ) {
             throw new Error('Missing apikey');
         }
-        const bearer = await getBearer(apikey);
+
+        const host = getInput('satelliteHost');
+        if ( !host ) {
+            throw new Error('Missing sateliteHost');
+        }
+
+        const tokenHost = getInput('tokenHost');
+        if ( !tokenHost) {
+            throw new Error('Missing tokenHost');
+        }
+        const bearer = await getBearer(tokenHost, apikey);
 
         // upload the file
         const filename = getInput('filename');
         const channelId = getInput('channelUuid');
         const versionName = getInput('versionName');
-        const versionid = await uploadVersion(bearer, filename, channelId, versionName);
+        const versionid = await uploadVersion(bearer, host, filename, channelId, versionName);
 
         setOutput("versionid", versionid);
     } catch (error) {

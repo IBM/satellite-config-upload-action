@@ -4,6 +4,12 @@ inputs:
   apikey:
     description: 'IBM Cloud API key'
     required: true
+  satelliteHost:
+    description: 'IBM Cloud Satellite API endpoint'
+    required: true
+  tokenHost:
+    description: 'IBM Cloud IAM endpoint'
+    required: true
   channelUuid:
     description: 'Satellite Config channelUuid'
     required: true
