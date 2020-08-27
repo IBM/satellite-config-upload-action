@@ -7,6 +7,14 @@ A set of Github Actions that allow users to integrate IBM Cloud Satellite Config
 
 **Required** The IBM Cloud API key.
 
+### `satelliteHost`
+
+**Optional** The IBM Cloud Satellite API endpoint. Defaults to https://config.satellite.cloud.ibm.com/graphql
+
+### `tokenHost`
+
+**Optional** IBM Cloud IAM endpoint. Defaults to https://iam.cloud.ibm.com
+
 ### `channelUuid`
 
 **Required** The IBM Cloud Satellite Config channelUuid.

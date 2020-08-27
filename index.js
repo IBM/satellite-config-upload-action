@@ -65,15 +65,9 @@ async function main() {
             throw new Error('Missing apikey');
         }
 
-        const host = getInput('satelliteHost');
-        if ( !host ) {
-            throw new Error('Missing sateliteHost');
-        }
+        const host = getInput('satelliteHost') || 'https://config.satellite.cloud.ibm.com/graphql' ;
+        const tokenHost = getInput('tokenHost') || 'https://iam.cloud.ibm.com' ;
 
-        const tokenHost = getInput('tokenHost');
-        if ( !tokenHost) {
-            throw new Error('Missing tokenHost');
-        }
         const bearer = await getBearer(tokenHost, apikey);
 
         // upload the file
