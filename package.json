@@ -4,7 +4,7 @@
   "description": "A set of Github Actions that allow users to integrate IBM Cloud Satellite Config into their Github CI pipelines.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "./node_modules/webpack-cli/bin/cli.js --config webpack.config.js"
   },
   "repository": {
     "type": "git",
@@ -23,5 +23,10 @@
     "@actions/github": "^2.2.0",
     "jwt-decode": "^2.2.0",
     "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "path": "^0.12.7",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
   }
 }
