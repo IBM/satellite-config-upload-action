@@ -35,8 +35,10 @@ The version id of the new file that was uploaded
 
 ## Example usage
 
+```
 uses: IBM/satellite-config-actions@v1
 with:
   apikey: 'xxxxxxxxxxxxxxxxxxxx'
   filename: 'resource.yml'
   channelUuid: '12345abcdef'
+```
