@@ -7,9 +7,11 @@ inputs:
   satelliteHost:
     description: 'IBM Cloud Satellite API endpoint'
     required: false
+    default: 'https://config.satellite.cloud.ibm.com/graphql'
   tokenHost:
     description: 'IBM Cloud IAM endpoint'
     required: false
+    default: 'https://iam.cloud.ibm.com'
   channelUuid:
     description: 'Satellite Config channelUuid'
     required: true
