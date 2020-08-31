@@ -15,3 +15,14 @@ jobs:
       - name: Build project
         run: |
           npm install && npm run build
+      - name: Commit files
+        run: |
+          git config --local user.email "test@github.com"
+          git config --local user.name "GitHub Action test"
+          git add ./dist/index.js
+          git commit -m "Adding dist/index.js"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          force: true
