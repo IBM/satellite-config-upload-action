@@ -19,7 +19,7 @@
   "homepage": "https://github.com/IBM/satellite-config-actions#readme",
   "dependencies": {
     "@actions/artifact": "^0.3.2",
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^2.2.0",
     "jwt-decode": "^2.2.0",
     "node-fetch": "^2.6.0"
