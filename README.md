@@ -35,10 +35,17 @@ The version id of the new file that was uploaded
 
 ## Example usage
 
-```
-uses: IBM/satellite-config-actions@v1
-with:
-  apikey: 'xxxxxxxxxxxxxxxxxxxx'
-  filename: 'resource.yml'
-  channelUuid: '12345abcdef'
+```bash
+name: Satellite Config Action Demo
+on: [push]
+jobs:
+  Explore-Satellite-Config-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create new version in satellite config
+        uses: IBM/satellite-config-upload-action@v1alpha4
+        with:
+          apikey: 'xxxxxxxxxxxxxxxxxxxx'
+          filename: 'resource.yml'
+          channelUuid: '12345abcdef'
 ```

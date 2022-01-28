@@ -9,7 +9,7 @@ import jwtDecode from 'jwt-decode';
 * Get the IAM bearer token using an API key
 */
 const getBearer = async (tokenHost, apikey) => {
-    console.log( 'Signing in to IBM Cloud' );
+    console.log('Signing in to IBM Cloud');
     const params = new URLSearchParams();
     params.append('grant_type', 'urn:ibm:params:oauth:grant-type:apikey');
     params.append('apikey', apikey);
@@ -24,7 +24,7 @@ const getBearer = async (tokenHost, apikey) => {
 */
 const uploadVersion = async (token, host, filename, channelId, version) => {
     // Load file
-    console.log( 'Uploading %s to channel %s as version %s', filename, channelId, version )
+    console.log('Uploading %s to channel %s as version %s', filename, channelId, version)
     const content = readFileSync(filename, 'utf8');
 
     // Build the content package
@@ -50,10 +50,10 @@ const uploadVersion = async (token, host, filename, channelId, version) => {
     const headers = { 'content-type': 'application/json', 'authorization': 'Bearer ' + token };
     const fetchResponse = await fetch(host, { method: 'POST', headers: headers, body: JSON.stringify(request) })
     const response = await fetchResponse.json();
-    if ( response.errors ) {
-        throw new Error (response.errors[0].message);
+    if (response.errors) {
+        throw new Error(response.errors[0].message);
     }
-    console.log( 'Version ID %s', response.data.addChannelVersion.versionUuid );
+    console.log('Version ID %s', response.data.addChannelVersion.versionUuid);
     return response.data.addChannelVersion.versionUuid;
 }
 
@@ -61,7 +61,7 @@ async function main() {
     try {
         // get the Bearer token
         const apikey = getInput('apikey');
-        if ( !apikey ) {
+        if (!apikey) {
             throw new Error('Missing apikey');
         }
 
@@ -69,13 +69,13 @@ async function main() {
         const bearer = await getBearer(tokenHost, apikey);
 
         // upload the file
-        const host = getInput('satelliteHost'); 
+        const host = getInput('satelliteHost');
         const filename = getInput('filename');
-        const channelId = getInput('channelUuid');
+        const channelUuid = getInput('channelUuid');
         const versionName = getInput('versionName');
-        const versionid = await uploadVersion(bearer, host, filename, channelId, versionName);
+        const versionUuid = await uploadVersion(bearer, host, filename, channelUuid, versionName);
 
-        setOutput("versionid", versionid);
+        setOutput("versionUuid", versionUuid);
     } catch (error) {
         setFailed(error.message);
     }
