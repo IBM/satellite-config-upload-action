@@ -5664,7 +5664,7 @@ const uploadVersion = async (token, host, filename, channelId, version) => {
 async function run() {
     try {
         // get the Bearer token
-        const apikey = getInput('apikey');
+        const apikey = core.getInput('apikey');
         if (!apikey) {
             throw new Error('Missing apikey');
         }
