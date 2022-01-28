@@ -1,21 +1,22 @@
-
-
-import { getInput, setOutput, setFailed } from '@actions/core';
-import fetch from 'node-fetch';
-import { readFileSync } from 'fs';
-import jwtDecode from 'jwt-decode';
+const core = require('@actions/core');
+const fetch = require('node-fetch');
+const jwt_decode = require('jwt-decode');
+const fs = require('fs');
 
 /*
 * Get the IAM bearer token using an API key
 */
-const getBearer = async (tokenHost, apikey) => {
+const authenticate = async (tokenHost, apikey) => {
     console.log('Signing in to IBM Cloud');
     const params = new URLSearchParams();
     params.append('grant_type', 'urn:ibm:params:oauth:grant-type:apikey');
     params.append('apikey', apikey);
+
     const response = await fetch(tokenHost, { method: 'POST', body: params });
+    if (!response.ok) throw new Error(`authentication failed: ${response.statusText}`);
     const json = await response.json();
     const bearer = json.access_token;
+
     return bearer;
 }
 
@@ -25,10 +26,10 @@ const getBearer = async (tokenHost, apikey) => {
 const uploadVersion = async (token, host, filename, channelId, version) => {
     // Load file
     console.log('Uploading %s to channel %s as version %s', filename, channelId, version)
-    const content = readFileSync(filename, 'utf8');
+    const content = fs.readFileSync(filename, 'utf8');
 
     // Build the content package
-    const jwt = jwtDecode(token);
+    const jwt = jwt_decode(token);
     const bss = jwt.account.bss;
     const request =
     {
@@ -53,32 +54,32 @@ const uploadVersion = async (token, host, filename, channelId, version) => {
     if (response.errors) {
         throw new Error(response.errors[0].message);
     }
-    console.log('Version ID %s', response.data.addChannelVersion.versionUuid);
+    console.log('Version %s uploaded successfully', response.data.addChannelVersion.versionUuid);
     return response.data.addChannelVersion.versionUuid;
 }
 
-async function main() {
+async function run() {
     try {
         // get the Bearer token
-        const apikey = getInput('apikey');
+        const apikey = core.getInput('apikey');
         if (!apikey) {
             throw new Error('Missing apikey');
         }
 
-        const tokenHost = getInput('tokenHost');
-        const bearer = await getBearer(tokenHost, apikey);
+        const tokenHost = core.getInput('tokenHost');
+        const bearer = await authenticate(tokenHost, apikey);
 
         // upload the file
-        const host = getInput('satelliteHost');
-        const filename = getInput('filename');
-        const channelUuid = getInput('channelUuid');
-        const versionName = getInput('versionName');
+        const host = core.getInput('satelliteHost');
+        const filename = core.getInput('filename');
+        const channelUuid = core.getInput('channelUuid');
+        const versionName = core.getInput('versionName');
         const versionUuid = await uploadVersion(bearer, host, filename, channelUuid, versionName);
 
-        setOutput("versionUuid", versionUuid);
+        core.setOutput("versionUuid", versionUuid);
     } catch (error) {
-        setFailed(error.message);
+        core.setFailed(error.message);
     }
 }
 
-main();
+run();

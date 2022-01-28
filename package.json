@@ -4,13 +4,20 @@
   "description": "A set of Github Actions that allow users to integrate IBM Cloud Satellite Config into their Github CI pipelines.",
   "main": "index.js",
   "scripts": {
-    "build": "ncc build index.js"
+    "lint": "eslint .",
+    "prepare": "ncc build index.js -o dist --source-map --license licenses.txt",
+    "all": "npm run lint && npm run prepare"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IBM/satellite-config-actions.git"
   },
-  "keywords": [],
+  "keywords": [
+    "GitHub",
+    "Actions",
+    "IBM",
+    "Satellite Config"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -18,13 +25,12 @@
   },
   "homepage": "https://github.com/IBM/satellite-config-actions#readme",
   "dependencies": {
-    "@actions/artifact": "^0.3.2",
-    "@actions/core": "^1.2.4",
-    "@actions/github": "^2.2.0",
-    "jwt-decode": "^2.2.0",
-    "node-fetch": "^2.6.0"
+    "@actions/core": "^1.6.0",
+    "jwt-decode": "^3.1.2",
+    "node-fetch": "^2.6.7"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.24.0"
+    "@vercel/ncc": "^0.33.1",
+    "eslint": "^8.7.0"
   }
 }
