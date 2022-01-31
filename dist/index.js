@@ -1,33 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 9396:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-const fetch = __nccwpck_require__(467);
-
-/*
-* Get the IAM bearer token using an API key
-*/
-const authenticate = async (tokenHost, apikey) => {
-    console.log('Authenticate with IBM Cloud');
-    const params = new URLSearchParams();
-    params.append('grant_type', 'urn:ibm:params:oauth:grant-type:apikey');
-    params.append('apikey', apikey);
-
-    const response = await fetch(tokenHost, { method: 'POST', body: params });
-    if (!response.ok) throw new Error(`authentication failed: ${response.statusText}`);
-    const json = await response.json();
-    const bearer = json.access_token;
-
-    return bearer;
-}
-
-module.exports = { authenticate };
-
-
-/***/ }),
-
 /***/ 7351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -9432,7 +9405,34 @@ module.exports.implForWrapper = function (wrapper) {
 
 /***/ }),
 
-/***/ 2170:
+/***/ 610:
+/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+
+const fetch = __nccwpck_require__(467);
+
+/*
+* Get the IAM bearer token using an API key
+*/
+const authenticate = async (tokenHost, apikey) => {
+    console.log('Authenticate with IBM Cloud');
+    const params = new URLSearchParams();
+    params.append('grant_type', 'urn:ibm:params:oauth:grant-type:apikey');
+    params.append('apikey', apikey);
+
+    const response = await fetch(tokenHost, { method: 'POST', body: params });
+    if (!response.ok) throw new Error(`authentication failed: ${response.statusText}`);
+    const json = await response.json();
+    const bearer = json.access_token;
+
+    return bearer;
+}
+
+module.exports = { authenticate };
+
+
+/***/ }),
+
+/***/ 5623:
 /***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
 
 const jwt_decode = __nccwpck_require__(4329);
@@ -9660,8 +9660,8 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 const core = __nccwpck_require__(2186);
-const { authenticate } = __nccwpck_require__(9396);
-const { uploadVersion } = __nccwpck_require__(2170);
+const { authenticate } = __nccwpck_require__(610);
+const { uploadVersion } = __nccwpck_require__(5623);
 
 async function run() {
     try {
