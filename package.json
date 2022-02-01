@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint .",
     "build": "ncc build src/index.js -o dist",
-    "all": "npm run lint && npm run build"
+    "test": "jest",
+    "all": "npm run lint && npm run test && npm run build"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
   },
   "devDependencies": {
     "@vercel/ncc": "^0.33.1",
-    "eslint": "^8.7.0"
+    "eslint": "^8.7.0",
+    "jest": "^27.4.7"
   }
 }
