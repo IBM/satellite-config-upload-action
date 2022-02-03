@@ -22,3 +22,4 @@ jobs:
             git diff
             exit 1
           fi
+          echo "Successfully verified dist/index.js"
