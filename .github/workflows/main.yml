@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-    - master
+    - fix-git-action
 
 name: Produce dist/index.js
 
@@ -19,7 +19,6 @@ jobs:
         run: |
           git config --local user.email "test@github.com"
           git config --local user.name "GitHub Action test"
-          git add ./dist/index.js
           git commit -m "Adding dist/index.js"
       - name: Push changes
         uses: ad-m/github-push-action@master
