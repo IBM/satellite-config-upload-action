@@ -46,7 +46,7 @@ The version id of the new file that was uploaded.
 
 In the example below, `IBM_API_KEY` and `SATCON_CONFIG_ID` are [GitHub secrets](https://docs.github.com/en/actions/security-guides/encrypted-secrets).
 
-```bash
+```yaml
 name: Satellite Config Action Demo
 on: [push]
 jobs:
