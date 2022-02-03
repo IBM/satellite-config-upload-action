@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-    - fix-git-action
+    - master
 
 name: Check dist/index.js
 
