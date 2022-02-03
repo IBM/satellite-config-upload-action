@@ -4,14 +4,6 @@ inputs:
   apikey:
     description: 'IBM Cloud API key'
     required: true
-  satelliteHost:
-    description: 'IBM Cloud Satellite API endpoint'
-    required: false
-    default: 'https://config.satellite.cloud.ibm.com/graphql'
-  tokenHost:
-    description: 'IBM Cloud IAM endpoint'
-    required: false
-    default: 'https://iam.cloud.ibm.com/identity/token'
   channelUuid:
     description: 'Satellite Config channelUuid'
     required: true
@@ -21,6 +13,14 @@ inputs:
   versionName:
     description: 'Name of the new version'
     required: true
+  satelliteHost:
+    description: 'IBM Cloud Satellite API endpoint'
+    required: false
+    default: 'https://config.satellite.cloud.ibm.com/graphql'
+  tokenHost:
+    description: 'IBM Cloud IAM endpoint'
+    required: false
+    default: 'https://iam.cloud.ibm.com/identity/token'
 outputs:
   versionUuid:
     description: 'The ID of the new version uploaded'
